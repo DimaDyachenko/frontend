@@ -22,11 +22,12 @@
       </v-text-field>
     </template>
     <v-date-picker
-      v-model="dateValue"
+      :model-value="dateValue"
       no-title
-      @change="handleDateInput"
-      @click:save="handleDateInput"
+      @update:modelValue="handleDateInput($event)"
     ></v-date-picker>
+    <!-- @change="handleDateInput" -->
+    <!-- @click:save="handleDateInput" -->
   </v-menu>
 </template>
 
@@ -36,7 +37,12 @@ export default {
     return {
       dateMenu: false,
       dateValue: null,
+      emitDate: null,
     };
+  },
+  model: {
+    prop: "date",
+    event: "submit",
   },
   props: {
     value: {
@@ -50,6 +56,10 @@ export default {
       type: Boolean,
       required: false,
     },
+    date: {
+      type: String,
+      default: "",
+    }
   },
   methods: {
     focusDate() {
@@ -66,8 +76,10 @@ export default {
         }
       }, 200);
     },
-    handleDateInput() {
+    handleDateInput(event) {
       this.dateMenu = false;
+      this.dateValue = event;
+      this.$emit("submit", this.formattedDateValue);
     },
   },
   computed: {

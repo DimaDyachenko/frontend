@@ -26,8 +26,9 @@
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <DatePicker
-                      v-model="editedTransport.acquisitionDate"
+                    :date="editedTransport.acquisitionDate"
                       label="Acquisition Date*"
+                      @submit="saveEditDate"
                     />
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
@@ -111,9 +112,10 @@
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <DatePicker
-                        v-model="newTransport.acquisitionDate"
+                        :date="newTransport.acquisitionDate"
                         label="Acquisition Date*"
                         is-required
+                        @submit="saveNewDate"
                       />
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
@@ -302,6 +304,13 @@ export default {
         console.error("Error updating transport:", error);
       }
     },
+
+    saveNewDate(date) {
+      this.newTransport.acquisitionDate = date;
+    },
+    saveEditDate(date) {
+      this.editedTransport.acquisitionDate = date;
+    }
   },
 
 };
